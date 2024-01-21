@@ -88,14 +88,14 @@ class _notebookAppState extends ConsumerState<notebookApp> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Uyarı'),
-          content: const Text("Bu Not Silinecek Emin Misiniz ?"),
+          title: const Text('Warning'),
+          content: const Text("This note will be removed. Are you sure ?"),
           actions: <Widget>[
             TextButton(
               style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
-              child: const Text('İptal'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -104,7 +104,7 @@ class _notebookAppState extends ConsumerState<notebookApp> {
               style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
-              child: const Text('Sil'),
+              child: const Text('Delete'),
               onPressed: () {
                 notebookAll.removeWhere(
                     (notebook currentItem) => deletedItem == currentItem);
@@ -140,7 +140,7 @@ class _notebookAppState extends ConsumerState<notebookApp> {
             child: ExpansionPanelList(
           expansionCallback: (int index, bool isExpanded) {
             setState(() {
-              notebooks[index].isShowed = !isExpanded;
+              notebooks[index].isShowed = isExpanded;
             });
           },
           children: notebooks.map<ExpansionPanel>((notebook item) {
@@ -201,6 +201,7 @@ class noteDetailPage extends ConsumerStatefulWidget {
 
   final notebook note;
 
+
   @override
   ConsumerState<noteDetailPage> createState() => _noteDetailPageState();
 }
@@ -210,6 +211,16 @@ class _noteDetailPageState extends ConsumerState<noteDetailPage> {
       TextEditingController();
   final TextEditingController noteTitleDetailPageController =
       TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    noteExplanationDetailPageController.text=widget.note.explanation;
+    noteTitleDetailPageController.text = widget.note.title;
+
+  }
+
   String selectedDetailOption = "High";
 
   String selectedDay = "";
@@ -236,7 +247,7 @@ class _noteDetailPageState extends ConsumerState<noteDetailPage> {
                 TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter something...';
+                      return 'Please write something...';
                     }
                     return null;
                   },
@@ -249,7 +260,7 @@ class _noteDetailPageState extends ConsumerState<noteDetailPage> {
                 TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter something...';
+                      return 'Please write something...';
                     }
                     return null;
                   },
@@ -353,24 +364,9 @@ class _noteDetailPageState extends ConsumerState<noteDetailPage> {
                       onPressed: () {
                         setState(() {
                           if (_noteDetailFormKey.currentState!.validate()) {
-                            if (selectedDay == "") {
-                              selectedDay =
-                                  widget.note.reminder!.day.toString();
-                            }
-                            if (selectedMonth == "") {
-                              selectedMonth =
-                                  widget.note.reminder!.month.toString();
-                            }
-                            if (selectedYear == "") {
-                              selectedYear =
-                                  widget.note.reminder!.year.toString();
-                            }
 
-                            String dateString =
-                                "$selectedDay/$selectedMonth/$selectedYear";
-                            DateFormat dateFormat = DateFormat("dd/MM/yyyy");
-                            DateTime dateTime = dateFormat.parse(dateString);
-                            widget.note.reminder = dateTime;
+
+
 
                             widget.note.title =
                                 noteTitleDetailPageController.text;
@@ -447,7 +443,7 @@ class _noteAddPageState extends ConsumerState<noteAddPage> {
                 TextFormField(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter something valid...';
+                      return 'Please write something valid...';
                     }
                     return null;
                   },
@@ -455,7 +451,7 @@ class _noteAddPageState extends ConsumerState<noteAddPage> {
                   decoration: const InputDecoration(
                     labelText: "Title",
                     border: OutlineInputBorder(),
-                    hintText: 'Please enter Title...',
+                    hintText: 'Please write Title...',
                   ),
                 ),
                 Padding(
@@ -463,7 +459,7 @@ class _noteAddPageState extends ConsumerState<noteAddPage> {
                   child: TextFormField(
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter something valid...';
+                        return 'Please write something valid...';
                       }
                       return null;
                     },
@@ -471,7 +467,7 @@ class _noteAddPageState extends ConsumerState<noteAddPage> {
                     decoration: const InputDecoration(
                       labelText: "Explanation",
                       border: OutlineInputBorder(),
-                      hintText: 'Please enter Explatanation ...',
+                      hintText: 'Please write explatanation ...',
                     ),
                   ),
                 ), // Seçilen seçeneği saklamak için bir değişken
