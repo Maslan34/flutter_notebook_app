@@ -51,13 +51,6 @@ git clone https://github.com/Maslan34/notebook_app.git
 - Optionally, enable the reminder checkbox and select a specific day for the reminder.
 - Click the "Save" button to add the new note.
 
-- ## Adding a New Note
-
-- Open the app and click on the "+" icon in the app bar.
-- Fill in the title and explanation for the new note.
-- Choose the importance level from the dropdown menu.
-- Optionally, enable the reminder checkbox and select a specific day for the reminder.
-- Click the "Save" button to add the new note.
 
 ## Editing a Note
 
